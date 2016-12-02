@@ -1,1 +1,71 @@
+                  SOLITAIRE
 
+Pour la durée de l'exercice les tableaux débutent a la case 1.
+
+1)
+Pour stocker l'état du plateau de solitaire on va utiliser un tableau a double
+entrées qui représentera le plateau, il servira a stocker l'état des cases et
+donc du plateau dans son intégralitée.
+La taille du tableau dépendra du type de solitaire (wikipedia), on utilisera un
+modele européen à 37 trous pour cet exercice.
+
+
+struct SOLITAIRE(){
+  int PLATEAU[7][7];  //le tabelau est de type int car on stockera l'état des cases avec des entiers
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+Etat des cases:
+
+      -1 : la case n'est pas une case (le solitaire européen n'est pas un carré,
+      contrairement a notre représentation il faut donc attribuer les cases qui
+      ne seront pas utilisées).
+
+      0 : la case est vise.
+
+      1 : il y a un pion dans la case.
+////////////////////////////////////////////////////////////////////////////////
+
+Pour représenter un pion on va simplement lui attribuer des coordonnées du plateau.
+
+struct POS(){
+  int x;
+  int y;
+};
+
+
+2)
+Pour savoir si le mouvement d'un pion p1 a un pion p2 est possible (selon les règles du solitaire) il faut tester plusieurs choses.
+p1 et p2 doivent tenir dans s (leurs cooredonnées ne peuvent pas etre inférieures a 1  ni supéreieures a 7)
+
+p1 et p2 sont ils dans la zone jouable?
+p1 est il un pion?
+p2 est une case vide?
+p2 est il suffisement proche de p1? (a une case d'écart)
+
+
+BOOL mouvement_test (SOLITAIRE s, POS p1, POS p2){
+
+//p1 et p2 sont ils dans la zone jouable.
+  if( (s[p1.x][p1.y] == -1) && (s[p2.x][p2.y] == -1)){
+  return false;
+  }
+
+//p1 est un pion?
+  if( s[p1.x][p1.y] != 1){
+  return false;
+  }
+
+//p2 pret a recevoir p1?
+  if( s[p2.x][p2.y] != 0){
+  return false;
+  }
+
+//vérifcation de la condition de distance (doit remplir une des conditions suivantes)
+  if( s[p2.x][p2.y] != (s[p1.x+2][p1.y] || s[p1.x][p1.y+2] || s[p1.x-2][p1.y] || s[p1.x][p1.y-2]) ){
+  return false
+  }
+//dans tous les autres cas
+return true;
+}
