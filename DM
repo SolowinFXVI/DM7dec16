@@ -69,3 +69,19 @@ BOOL mouvement_test (SOLITAIRE s, POS p1, POS p2){
 //dans tous les autres cas
 return true;
 }
+ La complexitée de cet alogorithme est dans le pire des cas de 4, puisque le pire des cas est le cas ou
+ le mouvement est possible les 4 test sont alors éxécutés, la complexitée vaut alors 4.
+
+3)
+On va utiliser l'algorithme de test de déplacment de la question précédente pour toutes les cases.
+C'est une méthode brute mais éfficace.
+
+
+BOOL deplacement_possible(SOLITAIRE s)
+
+int g, h, i, j;
+POS p1,p2;
+
+
+  }
+}
