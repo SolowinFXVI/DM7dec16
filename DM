@@ -1,6 +1,8 @@
                   SOLITAIRE
 
-Pour la durée de l'exercice les tableaux débutent a la case 1.
+Note : Pour la durée de l'exercice les tableaux débutent a la case 1.
+Note : Pour la durée de l'exercice la lecture hors du tableau n'entrainera pas d'erreure fatale
+et renvera simplement une réponse négative, les tests continuerons indépendement.
 
 1)
 Pour stocker l'état du plateau de solitaire on va utiliser un tableau a double
@@ -73,15 +75,88 @@ return true;
  le mouvement est possible les 4 test sont alors éxécutés, la complexitée vaut alors 4.
 
 3)
-On va utiliser l'algorithme de test de déplacment de la question précédente pour toutes les cases.
-C'est une méthode brute mais éfficace.
+Pour qu'il y ai un déplacement possible de pion sur s il faut qu'il y ai une case vide et qu'a deux cases de
+distance il y ai un pion.
+On va donc chercher une case vide et ensuite tester si il y un pion qui rempli les bonnes conditions.
+
+BOOL deplacement_possible(SOLITAIRE s){
+
+  int i,j;
+  for(i=1; i < 7; i++){
+      for(j=1; j < 7; j++){
+        if( (s[i][j] == 0) && (s[i+2][j] == 1 || s[i][j+2] == 1 || s[i-2][j] == 1|| s[i][j-2] == 1))
+        return true; //les conditions sont remplies, un deplacement est possible
+      }
+  }
+  return false; //les conditions ne sont pas remplies, pas de déplacement.
+}
+
+La complexité de cet algorithme est directement liée a la taille des doubles boucles imbriquées; elles sont de tailles 7.
+ce qui nous donne 7*7 = 7^2=49. Si on remplace 7 par n en fonction des différents types de solitaires ont obtient une complexitée en O(n^2).
 
 
-BOOL deplacement_possible(SOLITAIRE s)
+4)
+On peut fortement s'inspirer de l'algorithme précédent pour cette question.
 
-int g, h, i, j;
-POS p1,p2;
+SOLITAIRE jouer_tant_qu_on_peut_encore (SOLITARE s){    //l'algorithme prends en argument un solitaire et renvoi un solitaire modifié.
+
+int i, j;
+int un_mouvement_a_ete_effectue=1; //pour savoir quand s'arreter
+POS p1, p2;
 
 
+while(un_mouvement_a_ete_effectue == 1){ //l'alogrithme doit s'arreter lorsqu'a la complétion des boucles aucun mouvement n'a ete effectue.
+
+  for(i=1; i < 7; i++){
+      for(j=1; j < 7; j++){
+        if( (s[i][j] == 0) && (s[i+2][j] == 1 || s[i][j+2] == 1 || s[i-2][j] == 1|| s[i][j-2] == 1)){
+        p1.x = i; p1.y = j;
+
+          if(s[i+2][j] == 1){
+            p2.x= i+2; p2.y = j;
+            effectuer_mouvement(p1, p2);
+            un_mouvement_a_ete_effectue=1;
+            }
+
+          else if(s[i][j+2] == 1){
+            p2.x= i; p2.y = j+2;
+            effectuer_mouvement(p1, p2);
+            un_mouvement_a_ete_effectue=1;
+            }
+
+          else if(s[i-2][j] == 1){
+            p2.x= i-2; p2.y = j;
+            effectuer_mouvement(p1, p2);
+            un_mouvement_a_ete_effectue=1;
+            }
+
+          else if(s[i][j-2] == 1){
+            p2.x= i; p2.y = j-2;
+            effectuer_mouvement(p1, p2);
+            un_mouvement_a_ete_effectue=1;
+            }
+         }
+      }
+    }
   }
 }
+
+
+La complexitée de cet algorithme est bien plus difficile a évaluer: Les deux boucles internes ont toujours
+la meme complexitée qu'a la question précédente. Mais le while est difficile a evaluer.
+Dans le pire des cas le while s'effectura le nombre de cases qu'il y a sur le plateau, déffinissons par n le nombre de cases.
+
+
+si n est le nombre de cases alors la double boucle intérieure a une complexitée de n, le while également.
+ce qui donnne n*n=n^2. La complextiée de cet algorithme pour n vallant le nombre de case est de l'ordre de O(n^2).
+
+
+Cependant si on prend n la largeur des tableaux (comme a la question précédente) la complexitée de cet
+algorithme est alors de n*n*n*n = n^4. O(n^4).
+
+
+
+5)
+Pour représenter l'ensemble des parties de solitaire possible on peut utiliser un arbre des possibilités.
+Il duffit alors de suivre l'arbre de la racine jusqu'aux feuilles les branches représentants différents mouvements possibles.
+La feuille de l'arbre qu'on a suivi donnerait le nombre minimal de pions restants sur le plateau.
