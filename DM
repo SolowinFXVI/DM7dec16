@@ -1,7 +1,7 @@
                   SOLITAIRE
 
 Note : Pour la durée de l'exercice les tableaux débutent a la case 1.
-Note : Pour la durée de l'exercice la lecture hors du tableau n'entrainera pas d'erreure fatale
+Note : Pour la durée de l'exercice la lecture hors du tableau n'entrainera pas d'erreur fatale
 et renvera simplement une réponse négative, les tests continuerons indépendement.
 
 1)
@@ -24,12 +24,12 @@ Etat des cases:
       contrairement a notre représentation il faut donc attribuer les cases qui
       ne seront pas utilisées).
 
-      0 : la case est vise.
+      0 : la case est vide.
 
       1 : il y a un pion dans la case.
 ////////////////////////////////////////////////////////////////////////////////
 
-Pour représenter un pion on va simplement lui attribuer des coordonnées du plateau.
+Pour représenter un pion on va simplement lui attribuer des coordonnées du plateau. Donc des entiers.
 
 struct POS(){
   int x;
@@ -91,8 +91,7 @@ BOOL deplacement_possible(SOLITAIRE s){
   return false; //les conditions ne sont pas remplies, pas de déplacement.
 }
 
-La complexité de cet algorithme est directement liée a la taille des doubles boucles imbriquées; elles sont de tailles 7.
-ce qui nous donne 7*7 = 7^2=49. Si on remplace 7 par n en fonction des différents types de solitaires ont obtient une complexitée en O(n^2).
+La complexité de cet algorithme est directement liée a la taille des doubles boucles imbriquées; elles sont de tailles 7, ce qui nous donne 7*7 = 7^2=49. Si on remplace 7 par n en fonction des différents types de solitaires ont obtient une complexitée en O(n^2).
 
 
 4)

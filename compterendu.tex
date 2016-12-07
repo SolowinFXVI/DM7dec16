@@ -1,0 +1,120 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[francais]{babel}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\title {Devoir à la maison}
+\author{Julien JACQUET 21400579}
+
+\begin{document}
+  \pagenumbering{gobble}
+  \maketitle
+  \newpage
+  \pagenumbering{arabic}
+  \paragraph{Note :}
+  Pour la durée de l'exercice, les tableaux débutent à la case 1.
+  \paragraph{Note :}
+  Pour la durée de l'exercice, la lecture hors du tableau n'entraînera pas d'erreur fatale et renverra simplement une réponse négative, les tests continueront indépendamment.
+
+  \section{}
+  Pour stocker l'état du plateau de solitaire, on va utiliser un tableau à doubles entrées qui représentera le plateau, il servira à stocker l'état des cases et donc du plateau dans son intégralité.
+  La taille du tableau dépendra du type de solitaire ($Wikipedia$), on utilisera un  modèle européen à 37 trous pour cet exercice.
+  \lstset{
+    language=C,               % choose the language of the code
+    aboveskip=3mm,
+    belowskip=3mm,
+    basicstyle={\small\ttfamily},
+    numbers=left,                   % where to put the line-numbers
+    stepnumber=1,                   % the step between two line-numbers.
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    tabsize=2,                      % sets default tabsize to 2 spaces
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    captionpos=b,                   % sets the caption-position to bottom
+    breaklines=true,                % sets automatic line breaking
+    breakatwhitespace=true,         % sets if automatic breaks should only happen at whitespace
+    %title=\lstname,                 % show the filename of files included with \lstinputlisting;
+  }
+  \lstinputlisting{q1-1.c}
+
+  \paragraph{Etat des cases :}
+  \hfill \break
+
+  -1 : la case n'est pas une case (le solitaire européen n'est pas un carré, contrairement à notre représentation, il faut donc attribuer les cases qui ne seront pas utilisées).
+
+  0 : la case est vide.
+
+  1 : il y a un pion dans la case.
+
+  \paragraph{}
+
+  Pour représenter un pion on va simplement lui attribuer des coordonnées du plateau. Donc des entiers.
+
+  \lstinputlisting{q1-2.c}
+
+  \section{}
+  Pour savoir si le mouvement d'un pion $p1$ a un pion $p2$ est possible (selon les règles du solitaire) il faut tester plusieurs choses. $p1$ et $p2$ doivent tenir dans $s$ (leurs coordonnées ne peuvent pas être inférieures à 1  ni supérieures a 7).
+
+  \paragraph{}
+     $p1$ et $p2$ sont ils dans la zone jouable?
+
+    $p1$ est il un pion?
+
+    $p2$ est une case vide?
+
+    $p2$ est il suffisamment proche de $p1$? (à une case d'écart)
+
+  \paragraph{}
+  Notre fonction renverra un booléen.
+
+  \lstinputlisting{q2.c}
+
+  La complexité de cet algorithme est dans le pire des cas de 4, puisque le pire des cas est le cas où le mouvement est possible les 4 tests sont alors exécutés, la complexité vaut alors 4.
+
+  \section{}
+
+  Pour qu'il y ait un déplacement possible de pion sûr $s$ il faut qu'il y ait une case vide et qu'à deux cases de distance, il y ait un pion.
+  On va donc chercher une case vide et ensuite tester s'il y un pion qui remplit les bonnes conditions.
+
+  \lstinputlisting{q3.c}
+
+  La complexité de cet algorithme est directement liée à la taille des doubles boucles imbriquées, elles sont de tailles 7, ce qui nous donne  $7*7 = 7^2=49$.
+  Si l'on remplace 7 par $n$ en fonction des différents types de solitaires ont obtient une complexité en $O(n^2)$.
+
+  \section{}
+
+  On peut fortement s'inspirer de l'algorithme précédent pour cette question.
+
+  \lstinputlisting{q4.c}
+
+  L'idée est qu'une fois que des mouvements ont été effectués, il faut vérifier si de nouveaux mouvements ne sont pas possibles. D'où la condition d'arrêt. Quand aucun mouvement n'a été effectué par la boucle, il n'y a pas d'autres mouvements possibles.
+
+
+  La complexité de cet algorithme est bien plus difficile à évaluer: Les deux boucles internes ont toujours la même complexité qu'a la question précédente. Mais le while est difficile à évaluer.
+  Dans le pire des cas le while s'effectuera le nombre de cases qu'il y a sur le plateau, définissons le nombre de cases par $n$.
+
+  Si $n$ est le nombre de cases alors la double boucle intérieure à une complexité de $n$, le while également. Ce qui donnne $n*n=n^2$.
+  La complexité de cet algorithme pour $n$ valant le nombre de cases est de l'ordre de $O(n^2)$.
+
+  Cependant si l'on prend $n$ la largeur des tableaux (comme à la question précédente) la complexité de cet algorithme est alors de $n*n*n*n = n^4. O(n^4)$.
+
+  \section{}
+  Pour représenter l'ensemble des parties de solitaire possible, on peut utiliser un arbre des possibilités.
+  Il suffit alors de suivre l'arbre de la racine jusqu'aux feuilles les branches représentants différents mouvements possibles.
+  La feuille de l'arbre que l'on a suivie donnerait le nombre minimal de pions restants sur le plateau.
+
+\end{document}
